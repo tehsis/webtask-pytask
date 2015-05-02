@@ -14,6 +14,7 @@ let outCm = codemirror.fromTextArea($('[name=out]')[0], {});
 
 $('form').on('submit', function(e) {
   e.preventDefault();
+  outCm.setValue('running...');
   run($(this).serialize())
     .done(function(out) {
       outCm.setValue(out);
