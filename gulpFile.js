@@ -8,12 +8,12 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('build', function() {
-  browserify('./index.jsx', { debug: true })
+  browserify('./index.js', { debug: true })
   .add(require.resolve('babel/polyfill'))
   .transform(babelify)
   .bundle()
   .on('error', util.log.bind(util, 'Browserify Error'))
-  .pipe(source('canirequire.js'))
+  .pipe(source('pytask.js'))
   .pipe(buffer())
   .pipe(sourcemaps.init({loadMaps: true}))
   .pipe(uglify({ mangle: true }))
@@ -21,8 +21,8 @@ gulp.task('build', function() {
   .pipe(gulp.dest('.'));
 });
 
-gulp.task('watch', function() {
-  gulp.watch(['**/*.jsx', 'src/**.js'], ['build']);
+gulp.task('watch', ['build'], function() {
+  gulp.watch(['src/**.js'], ['build']);
 });
 
 gulp.task('default', ['build']);
